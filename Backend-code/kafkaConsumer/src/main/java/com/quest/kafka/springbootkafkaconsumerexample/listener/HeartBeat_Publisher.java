@@ -27,6 +27,7 @@ public class HeartBeat_Publisher implements Runnable {
    // teplate.convertAndSend("/topic/heartBeat", it.next())
 
         template.convertAndSend("/topic/heartBeat", it.next());
+        System.out.println("heart beat data sent");
         try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {

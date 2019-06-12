@@ -27,7 +27,7 @@ public class ProduceBPHB {
 	
 	
 	public void produceBP() {
-		for(int j= 150; j<160;j++) {
+		for(int j= 101; j<120;j++) {
 		pool.submit(new PushToKafkaTask("bp2",hbKafkaTemplate,bpKafkaTemplate,j));
 		
 		
@@ -36,7 +36,7 @@ public class ProduceBPHB {
 	
 	
 	public void produceHB() {
-		for(int j= 150; j<160;j++) {
+		for(int j= 101; j<120;j++) {
 			pool.submit(new PushToKafkaTask("heartBeat2",hbKafkaTemplate,bpKafkaTemplate,j));
 
 		}

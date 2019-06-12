@@ -23,7 +23,7 @@ public class PushToKafkaTask implements Runnable {
 	public void run() {
 
 		if(topic.equals("bp2")) {
-			for(int i=0;i<100; i++) {
+			for(int i=0;i<200; i++) {
 				BP bp = new BP();
 				bp.setPatientId(j);
 				bp.setBp(Math.random() * 49 );
@@ -31,7 +31,7 @@ public class PushToKafkaTask implements Runnable {
 		}
 		}
 			else if(topic.equals("heartBeat2")) {
-				for(int i=0;i<100; i++) {
+				for(int i=0;i<200; i++) {
 					HeartBeat bp = new HeartBeat();
 					bp.setPatientId(j);
 					bp.setHeartBeat(Math.random() * 49 );

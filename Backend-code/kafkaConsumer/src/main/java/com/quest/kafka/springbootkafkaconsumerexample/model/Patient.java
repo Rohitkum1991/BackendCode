@@ -9,7 +9,8 @@ public class Patient {
 	private String name;
 	private int age;
 	private String gender;
-	
+	private int wardType;
+
 	public Patient(int id, String name, int age, String gender) {
 		
 		this.id = id;
@@ -43,6 +44,12 @@ public class Patient {
 	}
 	public void setGender(String gender) {
 		this.gender = gender;
+	}
+	public int getWardType() {
+		return wardType;
+	}
+	public void setWardType(int ward) {
+		this.wardType = ward;
 	}
 	
 }

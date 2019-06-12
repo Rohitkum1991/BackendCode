@@ -2,6 +2,7 @@ package com.quest.kafka.springbootkafkaconsumerexample.listener;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import com.quest.kafka.springbootkafkaconsumerexample.model.BP;
@@ -21,6 +22,8 @@ public class KafkaConsumer {
 	@Autowired
 	BP_Data bpData;
 
+	@Autowired
+	SimpMessagingTemplate template ;
     @KafkaListener(topics = "bp2", group = "group_json",
             containerFactory = "bpKafkaListenerFactory")
     public void consumeJson(BP bp) {
@@ -32,8 +35,9 @@ public class KafkaConsumer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		BP_Data.addBp(bp.getPatientId(), bp);
-		BP_Data.addBPToList(bp.getBp());
+//		BP_Data.addBp(bp.getPatientId(), bp);
+//		BP_Data.addBPToList(bp.getBp());
+		template.convertAndSend("/topic/bp", bp);
     }
     
     @KafkaListener(topics = "heartBeat2", group = "group_json",
@@ -47,7 +51,8 @@ public class KafkaConsumer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        hbData.addHeartBeat(hb.getPatientId(), hb);
-        hbData.addHeartBeatToList(hb.getHeartBeat());
+//        hbData.addHeartBeat(hb.getPatientId(), hb);
+//        hbData.addHeartBeatToList(hb.getHeartBeat());
+        template.convertAndSend("/topic/heartBeat", hb);
     }
 }

@@ -22,7 +22,6 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 import com.quest.kafka.springbootkafkaconsumerexample.listener.BP_Data;
 import com.quest.kafka.springbootkafkaconsumerexample.listener.BP_Publisher;
-import com.quest.kafka.springbootkafkaconsumerexample.listener.DataSender;
 import com.quest.kafka.springbootkafkaconsumerexample.listener.HeartBeat_Data;
 import com.quest.kafka.springbootkafkaconsumerexample.listener.HeartBeat_Publisher;
 import com.quest.kafka.springbootkafkaconsumerexample.model.BP;
@@ -40,7 +39,7 @@ public class SchedulerConfig {
 	private static DecimalFormat df = new DecimalFormat("0.00");
     boolean flag = false;
 	Random objGenerator = new Random();
-	  ExecutorService pool = Executors.newFixedThreadPool(10);
+	  //ExecutorService pool = Executors.newFixedThreadPool(10);
 	  @Autowired
 		SimpMessagingTemplate template ;
       @Autowired
@@ -49,30 +48,38 @@ public class SchedulerConfig {
       HeartBeat_Data hbData;
 
 	
-    @Scheduled(fixedRate = 3000)
-    @MessageMapping("/message")
-    public void sendValues() {
-           flag = false;
-            int i=0;
-            int size = BP_Data.BP_values.size();
-            int j =101;
-                 while(j<201) {
-                  if(!flag) {
-
-                  List<BP> bpData1 = bpData.getBp(j);
-                  List<HeartBeat> hbData1 = hbData.getHeartBeat(j);
-                  pool.submit(new BP_Publisher(bpData1,j,template));
-                  pool.submit(new HeartBeat_Publisher(hbData1,j,template));
-                  
-                    
-                  }else {
-                        break;
-                  }
-                  i++;
-           }
-                 pool.shutdown();
-                // pool.awaitTermination(10000,)
-    }
+//    @Scheduled(fixedRate = 3000)
+//    @MessageMapping("/message")
+//    public void sendValues() {
+//           flag = false;
+//            int i=0;
+//            int size = BP_Data.BP_values.size();
+//            int j =101;
+//                 while(j<120) {
+//                  if(!flag) {
+//
+//                	  j++;
+//                  List<BP> bpData1 = bpData.getBp(j);
+//                  List<HeartBeat> hbData1 = hbData.getHeartBeat(j);
+//                  if( bpData1!=null && !bpData1.isEmpty() ) {
+//             //     pool.submit(new BP_Publisher(bpData1,j,template));
+//                	  
+//                	  template.convertAndSend("/topic/heartBeat", bpData1);
+//                  }
+//                  if(hbData1!=null && !hbData1.isEmpty()  ) {
+//                 // pool.submit(new HeartBeat_Publisher(hbData1,j,template));
+//                	  template.convertAndSend("/topic/bp", bpData1);
+//
+//                  }
+//                    
+//                  }else {
+//                        break;
+//                  }
+//                
+//           }
+//                // pool.shutdown();
+//                // pool.awaitTermination(10000,)
+//    }
     
 //    @SendTo("/topic/message12")
 //    @MessageMapping("/send/message")

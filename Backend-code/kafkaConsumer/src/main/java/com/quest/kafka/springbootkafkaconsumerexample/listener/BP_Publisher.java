@@ -28,6 +28,8 @@ public class BP_Publisher implements Runnable{
    // teplate.convertAndSend("/topic/heartBeat", it.next())
 
         template.convertAndSend("/topic/bp", it.next());
+        System.out.println("bp data sent");
+
         try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {

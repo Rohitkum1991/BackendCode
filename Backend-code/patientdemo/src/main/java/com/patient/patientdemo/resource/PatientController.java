@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.patient.patientdemo.PatientGenerationTask.PatientGenerationTask;
 import com.patient.patientdemo.model.Patient;
 import com.patient.patientdemo.repository.PatientRepository;
 
@@ -20,6 +21,9 @@ public class PatientController {
 
 	@Autowired
 	private PatientRepository repository;
+	
+	@Autowired
+	private PatientGenerationTask patientGenerator;
 	
 	@CrossOrigin(origins = "http://localhost:8081")
 	@PostMapping("/addPatient")
@@ -32,9 +36,29 @@ public class PatientController {
 	
 	@CrossOrigin(origins = "http://localhost:8081")
 	@GetMapping("/getPatient/{id}")
-	public Optional<Patient> getPatientById(@PathVariable int id) {
+	public Patient getPatientById(@PathVariable int id) {
 		
-		return repository.findById(id);
+		Optional<Patient> pat = repository.findById(id);
+		return pat.get();
+	
+	}
+	@CrossOrigin(origins = "http://localhost:8081")
+	@PostMapping("/updateWardType")
+	public String updateWard(@RequestBody Patient patient) {
+		
+		Optional<Patient> p = repository.findById(patient.getId());
+		Patient p1 =p.get();
+		p1.setWardType(patient.getWardType());
+		repository.save(p1);
+		return "ward updated for patient : "+p1.getId();
+	
+	}
+	@CrossOrigin(origins = "http://localhost:8081")
+	@PostMapping("/addMultiplePatients")
+	public void addMultiplePatients(@RequestBody List<Patient> patients) {
+		
+		 patientGenerator.generatePatients(patients);
+		
 	
 	}
 	

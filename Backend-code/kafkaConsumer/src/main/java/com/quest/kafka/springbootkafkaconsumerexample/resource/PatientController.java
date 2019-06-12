@@ -9,6 +9,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,7 @@ public class PatientController {
 	@Autowired
 	RestTemplate restTemplate;
 	
+	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/addPatient")
 	public String savePatient(@RequestBody Patient patient) {
 		
@@ -37,7 +39,19 @@ public class PatientController {
 	
 	}
 	
-	//@CrossOrigin(origins = "http://localhost:4200")
+	@CrossOrigin(origins = "http://localhost:4200")
+	@PostMapping("/updateWardType")
+	public String updateWard(@RequestBody Patient patient) {
+		
+		HttpHeaders headers = new HttpHeaders();
+	      headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+	      HttpEntity<Patient> entity = new HttpEntity<Patient>(patient,headers);
+	      
+	      return restTemplate.exchange("http://localhost:8080/updateWardType", HttpMethod.POST, entity, String.class).getBody();
+	
+	}
+	
+	@CrossOrigin(origins = "http://localhost:4200")
 	@GetMapping("/getPatient/{id}")
 	public Patient getPatientById(@PathVariable int id) {
 		
@@ -51,7 +65,7 @@ public class PatientController {
 	
 	
 	
-	//@CrossOrigin(origins = "http://localhost:4200")
+	@CrossOrigin(origins = "http://localhost:4200")
 	@GetMapping("/getAllPatients")
 	public List<Patient> getAllPAtients() {
 		
@@ -63,14 +77,14 @@ public class PatientController {
 	
 	}
 	
-	//@CrossOrigin(origins = "http://localhost:4200")
+	@CrossOrigin(origins = "http://localhost:4200")
 	@DeleteMapping("/deletePatient/{id}")
-	public void deletePatientById(@PathVariable int id) {
+	public String deletePatientById(@PathVariable int id) {
 		
 		HttpHeaders headers = new HttpHeaders();
 	      headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 	      HttpEntity <String> entity = new HttpEntity<String>(headers);
 		
-		 restTemplate.delete("http://localhost:8080/deletePatient"+id);
+	      return restTemplate.exchange("http://localhost:8080/deletePatient/"+id, HttpMethod.DELETE, entity, String.class).getBody();
 	}
 }
